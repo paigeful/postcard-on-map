@@ -75,7 +75,7 @@
                 <h4 class="fauxButton">Postcard</h4>
                 <h2>{{from}}</h2>
                 <p class="colorText">{{city}} {{#date}}, {{date}} {{/date}}</p>
-                <img src="{{imagehead}}" />
+                <a href="{{imagehead}}" class="lightbox_trigger"><img src="{{imagehead}}" /></a>
                 <ul style="display:none">
                 <li><span class="category">Wifi:</span> {{wifipassword}}</li>
                 <li><span class="category">Outlets:</span> {{outlets}}</li>
@@ -105,7 +105,7 @@
             <h4 class="fauxButton">Postcard</h4>
             <h2>{{from}}</h2>
             <p class="colorText">{{city}} {{#date}}, {{date}} {{/date}}</p>
-            <img src="{{imagehead}}" />
+            <a href="{{imagehead}}" class="lightbox_trigger"><img src="{{imagehead}}" /></a>
             <ul style="display:none">
             <li><span class="category">Wifi:</span> {{wifipassword}}</li>
             <li><span class="category">Outlets:</span> {{outlets}}</li>
@@ -156,48 +156,29 @@
               map.panTo(selectedCoords, 13)
         })
 
-        $('.lightbox_trigger').click(function(e) {
+        $('body').on('click', '.lightbox_trigger', function(e) {
+
             e.preventDefault();
 
-            //prevent default action (hyperlink)
-            e.preventDefault();
-
-            //Get clicked link href
             var image_href = $(this).attr("href");
-
-            /*
-            If the lightbox window HTML already exists in document,
-            change the img src to to match the href of whatever link was clicked
-
-            If the lightbox window HTML doesn't exists, create it and insert it.
-            (This will only happen the first time around)
-            */
 
             if ($('#lightbox').length > 0) { // #lightbox exists
 
-                //place href as img src value
                 $('#content').html('<img src="' + image_href + '" />');
-
-                //show lightbox window - you could use .show('fast') for a transition
                 $('#lightbox').show();
             }
 
-            else { //#lightbox does not exist - create and insert (runs 1st time only)
-
-                //create HTML markup for lightbox window
+            else {
                 var lightbox =
                 '<div id="lightbox">' +
-                    '<div id="content">' + //insert clicked link's href into img src
+                    '<div id="content">' +
                         '<img src="' + image_href +'" />' +
                     '</div>' +
                 '</div>';
-
-                //insert lightbox HTML into page
                 $('body').append(lightbox);
             }
         });
 
-        //Click anywhere on the page to get rid of lightbox window
         $('#lightbox').live('click', function() {
             $('#lightbox').hide();
         });

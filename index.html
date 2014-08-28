@@ -183,6 +183,7 @@
         }
         /** End of light box for postcard **/
 
+        /** Do not show postcard text by default **/
         var windownUrl = window.location.href;
         var showTextEnabled = windownUrl.indexOf('showText') >= 1;
         var postcardText = $('.postcard-text');
@@ -190,8 +191,6 @@
         if (showTextEnabled && postcardText) {
             postcardText.removeClass('hidden');
         }
-
-        console.log(">>>>>", showTextEnabled);
 
 
         // so that the first map and info that loads

@@ -86,3 +86,7 @@
     max-width: 350px;
     width: auto;
   }
+
+  .hidden {
+    display: none;
+  }

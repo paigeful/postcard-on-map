@@ -63,7 +63,7 @@
         <tr><th class="tHeader">From</th><th class="tHeader">City</th><th class="tHeader">Country</th><th class="tHeader">Date</th><th class="">Postcard</th></tr>
           {{#rows}}
             <tr id="{{rowNumber}}" class="spotRow"><td>{{from}}</td><td>{{city}}</td><td>{{country}}</td><td>{{date}}</td>
-            <td><a href="{{imagehead}}" class="lightbox_trigger">Pic</a> <a href="{{imagetail}}" class="lightbox_trigger" target="_blank">Txt</a></td></tr>
+            <td><a href="{{imagehead}}" class="lightbox_trigger">Front</a> <a href="{{imagetail}}" class="lightbox_trigger hidden postcard-text" target="_blank">Txt</a></td></tr>
             <tr class="hideRow"><td>wifi: {{wifipassword}}</td></tr>
           {{/rows}}
       </table>
@@ -128,6 +128,7 @@
             Tabletop.init( { key: URL, callback: showInfo, simpleSheet: true } )
         })
 
+
         // so long, so messy
 
       function showInfo(gData) {
@@ -155,10 +156,14 @@
               map.panTo(selectedCoords, 13)
         })
 
-        $('body').on('click', '.lightbox_trigger', function(e) {
+        /** light box for postcard **/
+        $('body').on('click', '.lightbox_trigger', setupLightbox);
 
+        $('#lightbox').live('click', function() {
+            $('#lightbox').hide();
+        });
+        function setupLightbox (e) {
             e.preventDefault();
-
             var image_href = $(this).attr("href");
 
             if ($('#lightbox').length > 0) { // #lightbox exists
@@ -166,7 +171,6 @@
                 $('#content').html('<img src="' + image_href + '" />');
                 $('#lightbox').show();
             }
-
             else {
                 var lightbox =
                 '<div id="lightbox">' +
@@ -176,11 +180,18 @@
                 '</div>';
                 $('body').append(lightbox);
             }
-        });
+        }
+        /** End of light box for postcard **/
 
-        $('#lightbox').live('click', function() {
-            $('#lightbox').hide();
-        });
+        var windownUrl = window.location.href;
+        var showTextEnabled = windownUrl.indexOf('showText') >= 1;
+        var postcardText = $('.postcard-text');
+
+        if (showTextEnabled && postcardText) {
+            postcardText.removeClass('hidden');
+        }
+
+        console.log(">>>>>", showTextEnabled);
 
 
         // so that the first map and info that loads
